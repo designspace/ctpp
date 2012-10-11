@@ -152,6 +152,7 @@ SyscallHandler * STDLibInitializer::CreateHandler(CCHAR_P szHandler)
 	else if (strcasecmp("obj_dump",                               szHandler) == 0) { return new FnObjDump();      }
 	else if (strcasecmp("random",                                 szHandler) == 0) { return new FnRandom();       }
 	else if (strcasecmp("size",                                   szHandler) == 0) { return new FnSize();         }
+	else if (strcasecmp("strpos",                                 szHandler) == 0) { return new FnStrPos();       }
 	else if (strcasecmp("sprintf",                                szHandler) == 0) { return new FnSprintf();      }
 	else if (strcasecmp("substr",                                 szHandler) == 0) { return new FnSubstring();    }
 	else if (strcasecmp("truncate",                               szHandler) == 0) { return new FnTruncate();     }
@@ -223,6 +224,7 @@ CCHAR_P STDLibInitializer::aSTDFNList[] =
 	"obj_dump",
 	"random",
 	"size",
+	"strpos",
 	"sprintf",
 	"substr",
 	"truncate",

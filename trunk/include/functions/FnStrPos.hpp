@@ -25,76 +25,65 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  *
- *      CTPP2VMSTDLibFunctions.hpp
+ *      FnStrPos.hpp
  *
  * $CTPP$
  */
-#ifndef _CTPP2_VM_STDLIB_FUNCTIONS_HPP__
-#define _CTPP2_VM_STDLIB_FUNCTIONS_HPP__ 1
+#ifndef _FN_STRPOS_HPP__
+#define _FN_STRPOS_HPP__ 1
+
+#include "CTPP2VMSyscall.hpp"
 
 /**
-  @file CTPP2VMSTDLibFunctions.hpp
-  @brief Virtual machine standard library functions
+  @file FnStrPos.hpp
+  @brief Virtual machine standard library function, get string, array or hash size
 */
 
-#include "FnAvg.hpp"
-#include "FnBase64Decode.hpp"
-#include "FnBase64Encode.hpp"
-#include "FnCast.hpp"
-#include "FnConcat.hpp"
-#include "FnContext.hpp"
-#include "FnDateFormat.hpp"
-#include "FnDefault.hpp"
-#include "FnDefined.hpp"
-#include "FnEmitter.hpp"
-#include "FnError.hpp"
-#include "FnFormParam.hpp"
-#include "FnGetText.hpp"
-#include "FnGetType.hpp"
-#include "FnHashKeys.hpp"
+namespace CTPP // C++ Template Engine
+{
 
-#ifdef MD5_SUPPORT
-#include "FnHMACMD5.hpp"
-#endif // MD5_SUPPORT
+class CDT;
+class Logger;
 
-#include "FnHostname.hpp"
-#include "FnHTMLEscape.hpp"
-#include "FnHrefParam.hpp"
+/**
+  @class FnStrPos FnStrPos.hpp <FnStrPos.hpp>
+  @brief Get string, array or hash size
+*/
+class FnStrPos:
+  public SyscallHandler
+{
+	/**
+	  @brief Constructor
+	*/
+ 	FnStrPos();
 
-#ifdef ICONV_SUPPORT
-#include "FnIconv.hpp"
-#endif // ICONV_SUPPORT
+	/**
+	  @brief A destructor
+	*/
+	~FnStrPos() throw();
 
-#include "FnInSet.hpp"
-#include "FnInArray.hpp"
-#include "FnJSONEscape.hpp"
-#include "FnJSON.hpp"
-#include "FnList.hpp"
-#include "FnListElement.hpp"
-#include "FnLog.hpp"
-#include "FnMBSize.hpp"
-#include "FnMBSubstring.hpp"
-#include "FnMBTruncate.hpp"
+private:
+	friend class STDLibInitializer;
 
-#ifdef MD5_SUPPORT
-#include "FnMD5.hpp"
-#endif // MD5_SUPPORT
+	/**
+	  @brief Handler
+	  @param aArguments - list of arguments
+	  @param iArgNum - number of arguments
+	  @param oCDTRetVal - return value
+	  @param oLogger - logger
+	  @return 0 - if success, -1 - otherwise
+	*/
+	INT_32 Handler(CDT            * aArguments,
+	               const UINT_32    iArgNum,
+	               CDT            & oCDTRetVal,
+	               Logger         & oLogger);
 
-#include "FnMax.hpp"
-#include "FnMin.hpp"
-#include "FnNumFormat.hpp"
-#include "FnObjDump.hpp"
-#include "FnRandom.hpp"
-#include "FnSize.hpp"
-#include "FnStrPos.hpp"
-#include "FnSprintf.hpp"
-#include "FnSubstring.hpp"
-#include "FnTruncate.hpp"
-#include "FnURIEscape.hpp"
-#include "FnURLEscape.hpp"
-#include "FnVersion.hpp"
-#include "FnWMLEscape.hpp"
-#include "FnXMLEscape.hpp"
+	/**
+	  @brief Get function name
+	*/
+	CCHAR_P GetName() const;
+};
 
-#endif // _CTPP2_VM_STDLIB_FUNCTIONS_HPP__
+} // namespace CTPP
+#endif // _FN_STRPOS_HPP__
 // End.
