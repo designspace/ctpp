@@ -25,76 +25,63 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  *
- *      CTPP2VMSTDLibFunctions.hpp
+ *      FnStrPos.cpp
  *
  * $CTPP$
  */
-#ifndef _CTPP2_VM_STDLIB_FUNCTIONS_HPP__
-#define _CTPP2_VM_STDLIB_FUNCTIONS_HPP__ 1
 
-/**
-  @file CTPP2VMSTDLibFunctions.hpp
-  @brief Virtual machine standard library functions
-*/
-
-#include "FnAvg.hpp"
-#include "FnBase64Decode.hpp"
-#include "FnBase64Encode.hpp"
-#include "FnCast.hpp"
-#include "FnConcat.hpp"
-#include "FnContext.hpp"
-#include "FnDateFormat.hpp"
-#include "FnDefault.hpp"
-#include "FnDefined.hpp"
-#include "FnEmitter.hpp"
-#include "FnError.hpp"
-#include "FnFormParam.hpp"
-#include "FnGetText.hpp"
-#include "FnGetType.hpp"
-#include "FnHashKeys.hpp"
-
-#ifdef MD5_SUPPORT
-#include "FnHMACMD5.hpp"
-#endif // MD5_SUPPORT
-
-#include "FnHostname.hpp"
-#include "FnHTMLEscape.hpp"
-#include "FnHrefParam.hpp"
-
-#ifdef ICONV_SUPPORT
-#include "FnIconv.hpp"
-#endif // ICONV_SUPPORT
-
-#include "FnInSet.hpp"
-#include "FnInArray.hpp"
-#include "FnJSONEscape.hpp"
-#include "FnJSON.hpp"
-#include "FnList.hpp"
-#include "FnListElement.hpp"
-#include "FnLog.hpp"
-#include "FnMBSize.hpp"
-#include "FnMBSubstring.hpp"
-#include "FnMBTruncate.hpp"
-
-#ifdef MD5_SUPPORT
-#include "FnMD5.hpp"
-#endif // MD5_SUPPORT
-
-#include "FnMax.hpp"
-#include "FnMin.hpp"
-#include "FnNumFormat.hpp"
-#include "FnObjDump.hpp"
-#include "FnRandom.hpp"
-#include "FnSize.hpp"
+#include "CDT.hpp"
+#include "CTPP2Logger.hpp"
 #include "FnStrPos.hpp"
-#include "FnSprintf.hpp"
-#include "FnSubstring.hpp"
-#include "FnTruncate.hpp"
-#include "FnURIEscape.hpp"
-#include "FnURLEscape.hpp"
-#include "FnVersion.hpp"
-#include "FnWMLEscape.hpp"
-#include "FnXMLEscape.hpp"
 
-#endif // _CTPP2_VM_STDLIB_FUNCTIONS_HPP__
+namespace CTPP // C++ Template Engine
+{
+
+//
+// Constructor
+//
+FnStrPos::FnStrPos()
+{
+	;;
+}
+
+//
+// Handler
+//
+INT_32 FnStrPos::Handler(CDT            * aArguments,
+                       const UINT_32    iArgNum,
+                       CDT            & oCDTRetVal,
+                       Logger         & oLogger)
+{
+	// Only 2 arg allowed
+	if (iArgNum != 2)
+	{
+		oLogger.Emerg("Usage: STRPOS(string, matchstring)");
+		return -1;
+	}
+
+	oCDTRetVal = -1;
+	char *cString    = const_cast<char*> (aArguments[1].GetString().c_str());
+	char *cSubString = const_cast<char*> (aArguments[0].GetString().c_str());
+	char *cResult    = strstr(cString, cSubString);
+
+        if (cResult)
+          oCDTRetVal = cResult - cString;
+return 0;
+}
+
+//
+// Get function name
+//
+CCHAR_P FnStrPos::GetName() const { return "strpos"; }
+
+//
+// A destructor
+//
+FnStrPos::~FnStrPos() throw()
+{
+	;;
+}
+
+} // namespace CTPP
 // End.
