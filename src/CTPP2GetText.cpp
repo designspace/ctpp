@@ -42,7 +42,13 @@
 #include <ctype.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+
+#if defined _WIN32 || defined __WIN32__ || defined __EMX__ || defined __DJGPP__
+#include "libgen_win32.h"
+#else
 #include <libgen.h>
+#endif
+
 #include <assert.h>
 
 #define LE_MAGIC 0x950412DE
