@@ -421,7 +421,6 @@ SET(LIBSRCS
             src/functions/FnObjDump.cpp
             src/functions/FnRandom.cpp
             src/functions/FnSize.cpp
-            src/functions/FnStrPos.cpp
             src/functions/FnSprintf.cpp
             src/functions/FnSubstring.cpp
             src/functions/FnTruncate.cpp
