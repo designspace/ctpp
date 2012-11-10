@@ -44,7 +44,7 @@
 namespace CTPP // C++ Template Engine
 {
 
-INT_32 FormatString(const STLW::string & sFormatString, STLW::string & sResult, const CDT & oArgs);
+CTPP2DECL INT_32 FormatString(const STLW::string & sFormatString, STLW::string & sResult, const CDT & oArgs);
 
 } // namespace CTPP
 #endif // _CTPP2_SPRINTF_HPP__
