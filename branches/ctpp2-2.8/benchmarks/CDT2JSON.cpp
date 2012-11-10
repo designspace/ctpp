@@ -47,7 +47,7 @@ void usage(const char * name) {
 int main(int argc, char ** argv) {
 	CDT cdt(CDT::HASH_VAL);
 
-	if(argc < 3 || argv[1][0] != '-' || not (argv[1][1] == 't' || argv[1][1] == 'b')) {
+	if (argc < 3 || argv[1][0] != '-' || (argv[1][1] != 't' && argv[1][1] != 'b')) {
 		usage(argv[0]);
 		return 3;
 	}
