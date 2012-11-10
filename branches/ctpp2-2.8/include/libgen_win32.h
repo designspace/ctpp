@@ -73,9 +73,6 @@ char *basename(char const *name)
 		--base;
 	}
 
-	/* Make sure the last byte is not a slash. */
-	assert (all_slashes || !ISSLASH(*(p - 1)));
-
 	return (char*)base;
 }
 
