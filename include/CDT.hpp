@@ -1746,7 +1746,7 @@ public:
 	  @class SortingComparator CDT.hpp <CDT.hpp>
 	  @brief Sorting comparator
 	*/
-	class SortingComparator
+	class CTPP2DECL SortingComparator
 	{
 	public:
 		/**
@@ -1769,13 +1769,13 @@ public:
 	};
 
 	// FWD
-	class ConstIterator;
+	class CTPP2DECL ConstIterator;
 
 	/**
 	  @class Iterator CDT.hpp <CDT.hpp>
 	  @brief CDT[HASH] forward iterator
 	*/
-	class Iterator
+	class CTPP2DECL Iterator
 	{
 	private:
 		friend class CDT;
@@ -1854,7 +1854,7 @@ public:
 	  @class ConstIterator CDT.hpp <CDT.hpp>
 	  @brief CDT[HASH] forward constant iterator
 	*/
-	class ConstIterator
+	class CTPP2DECL ConstIterator
 	{
 	private:
 		friend class CDT;
