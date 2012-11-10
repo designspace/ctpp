@@ -224,12 +224,12 @@ static void Split(const STLW::string & sStr, CHAR_8 cSep, STLW::vector<STLW::str
 static void Trim(STLW::string & s)
 {
 	s.erase(
-		STLW::find_if(s.rbegin(), s.rend(), STLW::not1(STLW::ptr_fun<INT_32, INT_32>(STLW::isspace))).base(),
+		STLW::find_if(s.rbegin(), s.rend(), STLW::not1(STLW::ptr_fun<INT_32, INT_32>(::isspace))).base(),
 		s.end());
 
 	s.erase(
 		s.begin(),
-		STLW::find_if(s.begin(), s.end(), STLW::not1(STLW::ptr_fun<INT_32, INT_32>(STLW::isspace))));
+		STLW::find_if(s.begin(), s.end(), STLW::not1(STLW::ptr_fun<INT_32, INT_32>(::isspace))));
 }
 
 //
