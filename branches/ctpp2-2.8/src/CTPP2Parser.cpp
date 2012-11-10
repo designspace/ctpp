@@ -513,6 +513,8 @@ CCharIterator CTPP2Parser::IsVar(CCharIterator szData, CCharIterator szEnd)
 	szData = sTMP;
 	STLW::string sVarName(sBegin(), sTMP() - sBegin());
 
+	const CHAR_8 cCurlyOpen = '{';
+	const CHAR_8 cCurlyClose = '}';
 	const CHAR_8 cSquareOpen = '[';
 	const CHAR_8 cSquareClose = ']';
 	const CHAR_8 cDot = '.';
@@ -520,7 +522,7 @@ CCharIterator CTPP2Parser::IsVar(CCharIterator szData, CCharIterator szEnd)
 	szData = IsWhiteSpace(szData, szEnd, 0);
 
 	bool bIsBlockVar = bInBlock && mCurrentBlock.find(sVarName) != mCurrentBlock.end();
-	if ((*szData == cDot || *szData == cSquareOpen) && !bInsideComplexVariable)
+	if ((*szData == cDot || *szData == cSquareOpen || *szData == cCurlyOpen) && !bInsideComplexVariable)
 	{
 		if (!bIsBlockVar) { pCTPP2Compiler -> PreparePushComplexVariable(VM_DEBUG(szData)); }
 		bIsComplexVariable = true;
@@ -528,7 +530,7 @@ CCharIterator CTPP2Parser::IsVar(CCharIterator szData, CCharIterator szEnd)
 	}
 
 	INT_32 ret = -1;
-    bool bIsForeachIterator = false;
+	bool bIsForeachIterator = false;
 	if (bIsBlockVar)
 	{
 		ret = pCTPP2Compiler -> PushBlockVariable(mCurrentBlock[sVarName]);
@@ -536,26 +538,25 @@ CCharIterator CTPP2Parser::IsVar(CCharIterator szData, CCharIterator szEnd)
 	else if (bInForeach) // Check iterator name
 	{
 		// Push iterator -> variable pair
-		ret = pCTPP2Compiler -> PushScopedVariable(sBegin(), sTMP() - sBegin(),
-												   sBegin(),  sTMP() - sBegin(),
-												   VM_DEBUG(szData));
-        if (ret > -1) { bIsForeachIterator = true; }
+		ret = pCTPP2Compiler -> PushScopedVariable(sBegin(), sTMP() - sBegin(), sBegin(), sTMP() - sBegin(), VM_DEBUG(szData));
+		if (ret > -1) { bIsForeachIterator = true; }
 	}
 
 	if (ret == -1)
 	{
-        pCTPP2Compiler -> PrepareLocalScope(VM_DEBUG(szData));
-        if (bInForeach)
-        {
-            pCTPP2Compiler -> PushString("__value__", 9, VM_DEBUG(szData));
-            pCTPP2Compiler -> IndirectCall(VM_DEBUG(*szData));
-        }
-        pCTPP2Compiler -> PushVariable(sVarName.data(), sVarName.size(), VM_DEBUG(*szData));
+		pCTPP2Compiler -> PrepareLocalScope(VM_DEBUG(szData));
+		if (bInForeach)
+		{
+			pCTPP2Compiler -> PushString("__value__", 9, VM_DEBUG(szData));
+			pCTPP2Compiler -> IndirectCall(VM_DEBUG(*szData));
+		}
+		pCTPP2Compiler -> PushVariable(sVarName.data(), sVarName.size(), VM_DEBUG(*szData));
 	}
 
-	while (*szData == cSquareOpen || *szData == cDot)
+	while (*szData == cSquareOpen || *szData == cDot || *szData == cCurlyOpen)
 	{
-		bool bIsDot = *szData != cSquareOpen;
+		bool bIsDot = *szData == cDot;
+		bool bIsCurlyOpen = *szData == cCurlyOpen;
 
 		++szData;
 
@@ -568,36 +569,40 @@ CCharIterator CTPP2Parser::IsVar(CCharIterator szData, CCharIterator szEnd)
 			if (sTMP == NULL) { throw CTPPParserSyntaxError("invalid indirect call", szData.GetLine(), szData.GetLinePos()); }
 			STLW::string sSubVarName(sBegin(), sTMP() - sBegin());
 
-            if (bIsForeachIterator)
-            {
-                STLW::string::size_type iI = sSubVarName.rfind("__");
-                bool bIsInternalKey = (sSubVarName.find("__") == 0) && (iI != STLW::string::npos) && (iI == (sSubVarName.length() - 2));
-                if (!bIsInternalKey)
-                {
-                    pCTPP2Compiler -> PushString("__value__", 9, VM_DEBUG(szData));
-                    pCTPP2Compiler -> IndirectCall(VM_DEBUG(*szData));
-                }
-                bIsForeachIterator = false;
-            }
+			if (bIsForeachIterator)
+			{
+				STLW::string::size_type iI = sSubVarName.rfind("__");
+				bool bIsInternalKey = (sSubVarName.find("__") == 0) && (iI != STLW::string::npos) && (iI == (sSubVarName.length() - 2));
+				if (!bIsInternalKey)
+				{
+					pCTPP2Compiler -> PushString("__value__", 9, VM_DEBUG(szData));
+					pCTPP2Compiler -> IndirectCall(VM_DEBUG(*szData));
+				}
+				bIsForeachIterator = false;
+			}
 
 			pCTPP2Compiler -> PushString(sSubVarName.c_str(), sSubVarName.size(), VM_DEBUG(szData));
 			szData = sTMP;
 		}
 		else
 		{
-            if (bIsForeachIterator)
-            {
+			if (bIsForeachIterator)
+			{
 				pCTPP2Compiler -> PushString("__value__", 9, VM_DEBUG(szData));
 				pCTPP2Compiler -> IndirectCall(VM_DEBUG(*szData));
-                bIsForeachIterator = false;
-            }
+				bIsForeachIterator = false;
+			}
 
 			eCTPP2ExprOperator eResultOperator = EXPR_UNDEF;
 			CCharIterator sKeyNameEnd = LogicalOrExpr(szData, szEnd, eResultOperator);
 			if (sKeyNameEnd == NULL) { throw CTPPParserSyntaxError("invalid indirect call", szData.GetLine(), szData.GetLinePos()); }
 
 			szData = IsWhiteSpace(sKeyNameEnd, szEnd, 0);
-			if (*szData != cSquareClose) { throw CTPPParserSyntaxError("invalid indirect call", szData.GetLine(), szData.GetLinePos()); }
+			
+			if (*szData != (bIsCurlyOpen ? cCurlyClose : cSquareClose))
+			{
+				throw CTPPParserSyntaxError("invalid indirect call", szData.GetLine(), szData.GetLinePos());
+			}
 		}
 		pCTPP2Compiler -> IndirectCall(VM_DEBUG(*szData));
 
@@ -605,12 +610,12 @@ CCharIterator CTPP2Parser::IsVar(CCharIterator szData, CCharIterator szEnd)
 		sTMP = szData;
 		szData = IsWhiteSpace(szData, szEnd, 0);
 	}
-    if (bIsForeachIterator)
-    {
+	if (bIsForeachIterator)
+	{
 		pCTPP2Compiler -> PushString("__value__", 9, VM_DEBUG(szData));
 		pCTPP2Compiler -> IndirectCall(VM_DEBUG(*szData));
-        bIsForeachIterator = false;
-    }
+		bIsForeachIterator = false;
+	}
 	if (bIsComplexVariable)
 	{
 		if (!bIsBlockVar) { pCTPP2Compiler -> ClearPushComplexVariable(VM_DEBUG(*szData)); }
@@ -2470,7 +2475,7 @@ CCharIterator CTPP2Parser::Parse(CCharIterator szData, CCharIterator szEnd)
 			eCTPP2Operator oOperatorType = UNDEF;
 			szIter = IsOperator(++sTMP, szEnd, oOperatorType);
 			// Operator NOT found after opener tag
-			if (szIter == NULL)  { throw CTPPParserSyntaxError("incorrect operator", szIter.GetLine(), szIter.GetLinePos()); }
+			if (szIter == NULL)  { throw CTPPParserSyntaxError("incorrect operator", sTMP.GetLine(), sTMP.GetLinePos()); }
 
 			if (szIter == szEnd) { throw CTPPParserSyntaxError("unexpected end of file", szIter.GetLine(), szIter.GetLinePos()); }
 			// Operator found, parse operator code
