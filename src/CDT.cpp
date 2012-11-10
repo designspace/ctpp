@@ -34,6 +34,10 @@
 
 #include <stdio.h>
 
+#ifdef WIN32
+#define strtoll _strtoi64
+#endif
+
 namespace CTPP
 {
 
