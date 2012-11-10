@@ -64,7 +64,7 @@ namespace CTPP // C++ Template Engine
   @class Logger CTPP2Logger.hpp <CTPP2Logger.hpp>
   @brief CTPP2 logger subsystem
 */
-class Logger
+class CTPP2DECL Logger
 {
 protected:
 	/** Base priority   */
