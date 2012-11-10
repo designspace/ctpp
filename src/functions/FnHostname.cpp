@@ -34,7 +34,7 @@
 #include "CTPP2Logger.hpp"
 #include "FnHostname.hpp"
 
-#ifdef WIN32
+#ifdef _MSC_VER
 #include <Winsock2.h>
 #else
 #include <unistd.h>
