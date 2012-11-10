@@ -46,8 +46,8 @@ int main(void)
 {
 
 	CDT oArgs;
-	oArgs.PushBack(101.5);
-	oArgs.PushBack(101.4);
+	oArgs.PushBack(101.55);
+	oArgs.PushBack(101.24);
 
 	STLW::string sResult;
 	FormatString("_%0.2f_", sResult, oArgs);
