@@ -158,6 +158,10 @@
 #include <stdio.h>
 #include <errno.h>
 
+#ifndef BYTE_ORDER
+#error "BYTE_ORDER is not defined!"
+#endif
+
 #define PLATFORM(x) (BYTE_ORDER == (x))
 
 #if PLATFORM(BIG_ENDIAN)
