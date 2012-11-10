@@ -43,7 +43,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-#if defined _WIN32 || defined __WIN32__ || defined __EMX__ || defined __DJGPP__
+#if defined _MSC_VER
 #include "libgen_win32.h"
 #else
 #include <libgen.h>

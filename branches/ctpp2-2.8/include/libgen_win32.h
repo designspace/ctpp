@@ -32,8 +32,7 @@
 #ifndef _LIBGEN_WIN32_HPP__
 #define _LIBGEN_WIN32_HPP__ 1
 
-#if defined _WIN32 || defined __WIN32__ || defined __EMX__ || defined __DJGPP__
-/* Win32, OS/2, DOS */
+#if defined _MSC_VER
 # define HAS_DEVICE(P) \
 ((((P)[0] >= 'A' && (P)[0] <= 'Z') || ((P)[0] >= 'a' && (P)[0] <= 'z')) \
 && (P)[1] == ':')
