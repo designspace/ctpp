@@ -58,7 +58,7 @@ class Logger;
   @class FnIconv FnIconv.hpp <FnIconv.hpp>
   @brief Iconv converter
 */
-class FnIconv:
+class CTPP2DECL FnIconv:
   public SyscallHandler
 {
 	/**
