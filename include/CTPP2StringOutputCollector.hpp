@@ -47,7 +47,7 @@ namespace CTPP // C++ Template Engine
   @class StringOutputCollector CTPP2StringOutputCollector.hpp <CTPP2StringOutputCollector.hpp>
   @brief Output data collector
 */
-class StringOutputCollector:
+class CTPP2DECL StringOutputCollector:
   public OutputCollector
 {
 public:
