@@ -121,7 +121,7 @@ static void FmtChar(StringBuffer   & oBuffer,
 	UCHAR_8 ucTMP = ' ';
 	if (oValType == CDT::INT_VAL || oValType == CDT::REAL_VAL)
 	{
-		ucTMP = oCurrentArgument.GetInt();
+		ucTMP = (UCHAR_8)oCurrentArgument.GetInt();
 	}
 	else if (oValType == CDT::STRING_VAL)
 	{
@@ -204,10 +204,10 @@ static void FmtInt(StringBuffer        & oBuffer,
 		{
 			case F_NONE:
 			case F_LONG:
-				iPos = DoFormat<INT_32>(oCurrentArgument.GetInt(), iRadix, szDigits, szBuffer, bIsNegative);
+				iPos = DoFormat<INT_32>((INT_32)oCurrentArgument.GetInt(), iRadix, szDigits, szBuffer, bIsNegative);
 				break;
 			case F_SHORT:
-				iPos = DoFormat<INT_16>(oCurrentArgument.GetInt(), iRadix, szDigits, szBuffer, bIsNegative);
+				iPos = DoFormat<INT_16>((INT_16)oCurrentArgument.GetInt(), iRadix, szDigits, szBuffer, bIsNegative);
 				break;
 			case F_LONG_LONG:
 				iPos = DoFormat<INT_64>(oCurrentArgument.GetInt(), iRadix, szDigits, szBuffer, bIsNegative);
@@ -221,10 +221,10 @@ static void FmtInt(StringBuffer        & oBuffer,
 		{
 			case F_NONE:
 			case F_LONG:
-				iPos = DoFormat<UINT_32>(oCurrentArgument.GetInt(), iRadix, szDigits, szBuffer, bIsNegative);
+				iPos = DoFormat<UINT_32>((UINT_32)oCurrentArgument.GetInt(), iRadix, szDigits, szBuffer, bIsNegative);
 				break;
 			case F_SHORT:
-				iPos = DoFormat<UINT_16>(oCurrentArgument.GetInt(), iRadix, szDigits, szBuffer, bIsNegative);
+				iPos = DoFormat<UINT_16>((UINT_16)oCurrentArgument.GetInt(), iRadix, szDigits, szBuffer, bIsNegative);
 				break;
 			case F_LONG_LONG:
 				iPos = DoFormat<UINT_64>(oCurrentArgument.GetInt(), iRadix, szDigits, szBuffer, bIsNegative);
@@ -769,7 +769,7 @@ INT_32 FormatString(const STLW::string & sFormatString, STLW::string & sResult, 
 			 */
 			else if (*sPos == '*')
 			{
-				iWidth = oArgs.GetCDT(iPos).GetInt();
+				iWidth = (INT_32)oArgs.GetCDT(iPos).GetInt();
 				++iPos;
 				++sPos;
 			}
@@ -794,7 +794,7 @@ INT_32 FormatString(const STLW::string & sFormatString, STLW::string & sResult, 
 				}
 				else if (*sPos == '*')
 				{
-					iPrecision = oArgs.GetCDT(iPos).GetInt();
+					iPrecision = (INT_32)oArgs.GetCDT(iPos).GetInt();
 					++iPos;
 					++sPos;
 				}

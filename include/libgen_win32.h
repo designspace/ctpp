@@ -25,65 +25,56 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  *
- *      FnStrPos.hpp
+ *      CDT.hpp
  *
  * $CTPP$
  */
-#ifndef _FN_STRPOS_HPP__
-#define _FN_STRPOS_HPP__ 1
+#ifndef _LIBGEN_WIN32_HPP__
+#define _LIBGEN_WIN32_HPP__ 1
 
-#include "CTPP2VMSyscall.hpp"
+#if defined _MSC_VER
+# define HAS_DEVICE(P) \
+((((P)[0] >= 'A' && (P)[0] <= 'Z') || ((P)[0] >= 'a' && (P)[0] <= 'z')) \
+&& (P)[1] == ':')
+# define FILESYSTEM_PREFIX_LEN(P) (HAS_DEVICE (P) ? 2 : 0)
+# define ISSLASH(C) ((C) == '/' || (C) == '\\')
+#endif
 
-/**
-  @file FnStrPos.hpp
-  @brief Virtual machine standard library function, get string, array or hash size
-*/
+#ifndef FILESYSTEM_PREFIX_LEN
+# define FILESYSTEM_PREFIX_LEN(Filename) 0
+#endif
 
-namespace CTPP // C++ Template Engine
+#ifndef ISSLASH
+# define ISSLASH(C) ((C) == '/')
+#endif
+
+char *basename(char const *name)
 {
+	char const *base = name += FILESYSTEM_PREFIX_LEN(name);
+	int all_slashes = 1;
+	char const *p;
 
-class CDT;
-class Logger;
+	for (p = name; *p; p++)
+	{
+		if (ISSLASH (*p))
+		{
+			base = p + 1;
+		}
+		else
+		{
+			all_slashes = 0;
+		}
+	}
 
-/**
-  @class FnStrPos FnStrPos.hpp <FnStrPos.hpp>
-  @brief Get string, array or hash size
-*/
-class FnStrPos:
-  public SyscallHandler
-{
-	/**
-	  @brief Constructor
-	*/
- 	FnStrPos();
+	/* If NAME is all slashes, arrange to return `/'. */
+	if (*base == '\0' && ISSLASH(*name) && all_slashes)
+	{
+		--base;
+	}
 
-	/**
-	  @brief A destructor
-	*/
-	~FnStrPos() throw();
+	return (char*)base;
+}
 
-private:
-	friend class STDLibInitializer;
-
-	/**
-	  @brief Handler
-	  @param aArguments - list of arguments
-	  @param iArgNum - number of arguments
-	  @param oCDTRetVal - return value
-	  @param oLogger - logger
-	  @return 0 - if success, -1 - otherwise
-	*/
-	INT_32 Handler(CDT            * aArguments,
-	               const UINT_32    iArgNum,
-	               CDT            & oCDTRetVal,
-	               Logger         & oLogger);
-
-	/**
-	  @brief Get function name
-	*/
-	CCHAR_P GetName() const;
-};
-
-} // namespace CTPP
-#endif // _FN_STRPOS_HPP__
+#endif //_LIBGEN_WIN32_HPP__
 // End.
+

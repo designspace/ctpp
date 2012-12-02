@@ -48,7 +48,7 @@ namespace CTPP // C++ Template Engine
   @class FileLogger CTPP2FileLogger.hpp <CTPP2FileLogger.hpp>
   @brief CTPP2 logger subsystem
 */
-class FileLogger:
+class CTPP2DECL FileLogger:
   public Logger
 {
 protected:

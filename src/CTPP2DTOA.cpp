@@ -158,6 +158,27 @@
 #include <stdio.h>
 #include <errno.h>
 
+#ifdef _MSC_VER
+    #include <WinSock2.h>
+    #ifndef BIG_ENDIAN
+        #define BIG_ENDIAN BIGENDIAN
+    #endif
+    #ifndef LITTLE_ENDIAN
+        #define LITTLE_ENDIAN LITTLEENDIAN
+    #endif
+    #ifndef BYTE_ORDER
+        #if (LITTLEENDIAN > BIGENDIAN)
+            #define BYTE_ORDER LITTLE_ENDIAN
+        #else
+            #define BYTE_ORDER BIG_ENDIAN
+        #endif
+    #endif
+#endif
+
+#ifndef BYTE_ORDER
+#error "BYTE_ORDER is not defined!"
+#endif
+
 #define PLATFORM(x) (BYTE_ORDER == (x))
 
 #if PLATFORM(BIG_ENDIAN)

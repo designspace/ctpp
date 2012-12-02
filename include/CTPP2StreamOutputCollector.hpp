@@ -47,7 +47,7 @@ namespace CTPP // C++ Template Engine
   @class StreamOutputCollector StreamOutputCollector.hpp <StreamOutputCollector.hpp>
   @brief Output data collector (C++ data stream)
 */
-class StreamOutputCollector:
+class CTPP2DECL StreamOutputCollector:
   public OutputCollector
 {
 public:
