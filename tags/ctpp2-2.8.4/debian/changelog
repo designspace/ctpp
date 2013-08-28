@@ -1,9 +1,15 @@
+ctpp2 (2.8.4) unstable; urgency=low
+
+  * Default gettext support libintl
+
+ -- Andrei V. Shetuhin <reki@reki.ru>  Wed, 28 Aug 2013 18:26:00 +0400
+
 ctpp2 (2.8.3) unstable; urgency=low
 
   * Returned curly brakets as an alias for square ones.
   * Fixed error reporting.
 
- -- Andrey V. Shetukhin <stellar@communico.pro>  Sat, 10 Nov 2012 14:23:00 +0400
+ -- Alexander Pankov <pianist@usrsrc.ru>  Sat, 10 Nov 2012 14:23:00 +0400
 
 ctpp2 (2.8.2) unstable; urgency=low
 
