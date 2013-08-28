@@ -1,6 +1,6 @@
 Summary: 	CTPP2 template engine.
 Name: 		ctpp2
-Version: 	2.8.3
+Version: 	2.8.4
 Release: 	0%{?dist}
 License: 	BSD
 Source: 	ctpp2-%{version}.tar.gz
@@ -63,6 +63,9 @@ rm -rf %{buildroot}
 %{_libdir}/libctpp2-st.a
 
 %changelog
+* Wed Aug 28 2013 Alexander Pankov <pianist@usrsrc.ru> - 2.8.4-0
++ Default gettext support libintl
+
 * Sat Nov 10 2012 Alexander Pankov <pianist@usrsrc.ru> - 2.8.3-0
 + Returned curly brakets as an alias for square
 + Fixed error reporting
