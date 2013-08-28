@@ -8,7 +8,11 @@
 #include <sysexits.h>
 #endif
 
+#ifdef _MSC_VER
+#include <Windows.h>
+#else
 #include <sys/time.h>
+#endif
 
 #include <iostream>
 #include <sstream>
@@ -22,11 +26,19 @@
 using namespace CTPP;
 using namespace std;
 
+#ifdef _MSC_VER
+unsigned long getMSTime() {
+	SYSTEMTIME st;
+	GetSystemTime(&st);
+	return st.wSecond * 1000000 + st.wMilliseconds * 1000;
+}
+#else
 unsigned long getMSTime() {
 	struct timeval tv;
 	gettimeofday(&tv, 0);
 	return tv.tv_sec * 1000000 + tv.tv_usec;
 }
+#endif
 
 void usage(const char * name) {
 	cout << "Usage:\n\t" << name << " -[t|b] filename \n\t\t -t - test stream and non-stream CDT to JSON conversions\n\t\t -b - run stream vs non-stream CDT to JSON conversions benchmark\n\t filename - name of file with JSON object which will be used in test/benchmark" << endl;
@@ -35,7 +47,7 @@ void usage(const char * name) {
 int main(int argc, char ** argv) {
 	CDT cdt(CDT::HASH_VAL);
 
-	if(argc < 3 || argv[1][0] != '-' || not (argv[1][1] == 't' || argv[1][1] == 'b')) {
+	if (argc < 3 || argv[1][0] != '-' || (argv[1][1] != 't' && argv[1][1] != 'b')) {
 		usage(argv[0]);
 		return 3;
 	}

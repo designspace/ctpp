@@ -34,7 +34,13 @@
 #include "CTPP2Logger.hpp"
 #include "FnGetText.hpp"
 
+#ifdef WIN32
+#include <windows.h>
+#else
 #include <strings.h>
+#endif
+#include <libintl.h>
+
 #include "CTPP2GetText.hpp"
 
 namespace CTPP // C++ Template Engine
@@ -52,13 +58,29 @@ FnGetText::FnGetText(CCHAR_P szAlias) : pGetText(NULL), szFuncName(strdup(szAlia
 // Handler
 //
 INT_32 FnGetText::Handler(CDT            * aArguments,
-                          const UINT_32    iArgNum,
-                          CDT            & oCDTRetVal,
-                          Logger         & oLogger)
+		          const UINT_32    iArgNum,
+		          CDT            & oCDTRetVal,
+		          Logger         & oLogger)
 {
 	if (pGetText == NULL)
 	{
-		oLogger.Emerg("GetText object is NULL");
+		if (iArgNum == 1)
+		{
+			oCDTRetVal = gettext(aArguments[0].GetString().c_str());
+			return 0;
+		}
+		else if (iArgNum == 2)
+		{
+			oCDTRetVal = dgettext(aArguments[1].GetString().c_str(), aArguments[0].GetString().c_str());
+			return 0;
+		}
+		else if (iArgNum == 3)
+		{
+			oCDTRetVal = dcgettext(aArguments[2].GetString().c_str(), aArguments[1].GetString().c_str(), INT_32(aArguments[3].GetInt()));
+			return 0;
+		}
+
+		oLogger.Emerg("Usage: GETTEXT(message) or GETTEXT(message, domain) or GETTEXT(message, domain, category)");
 		return -1;
 	}
 
@@ -75,13 +97,13 @@ INT_32 FnGetText::Handler(CDT            * aArguments,
 	else if (iArgNum == 3)
 	{
 		oCDTRetVal = pGetText -> FindPluralMessage(sLanguage, aArguments[2].GetString(),
-		                                     aArguments[1].GetString(), aArguments[0].GetUInt());
+		                                     aArguments[1].GetString(), (UINT_32)aArguments[0].GetUInt());
 		return 0;
 	}
 	else if (iArgNum == 4)
 	{
 		oCDTRetVal = pGetText -> FindPluralMessage(sLanguage, aArguments[3].GetString(), aArguments[2].GetString(),
-		                                     aArguments[1].GetUInt(), aArguments[0].GetString());
+		                                     (UINT_32)aArguments[1].GetUInt(), aArguments[0].GetString());
 		return 0;
 	}
 

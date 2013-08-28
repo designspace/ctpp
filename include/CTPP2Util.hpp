@@ -47,7 +47,7 @@ class CDT;
   @class DumpBuffer CTPP2Util.hpp <CTPP2Util.hpp>
   @brief Buffer for dumping CDTs. Used as an alternative for std::string (as string's append is quite slow)
 */
-class DumpBuffer {
+class CTPP2DECL DumpBuffer {
 public:
 	/**
 	  @var typedef UINT_32 StreamSize
@@ -104,7 +104,7 @@ private:
   @param iSize - buffer size
   @return CRC32 checksum
 */
-UINT_32 crc32(UCCHAR_P sBuffer, const UINT_32 & iSize);
+CTPP2DECL UINT_32 crc32(UCCHAR_P sBuffer, const UINT_32 & iSize);
 
 /**
   @fn UINT_32 Swap32(const UINT_32 & iValue)
@@ -112,7 +112,7 @@ UINT_32 crc32(UCCHAR_P sBuffer, const UINT_32 & iSize);
   @param iValue - value to swap
   @return Swapped value
 */
-UINT_32 Swap32(const UINT_32 & iValue);
+CTPP2DECL UINT_32 Swap32(const UINT_32 & iValue);
 
 /**
   @fn UINT_64 Swap64(const UINT_64 & iValue)
@@ -120,7 +120,7 @@ UINT_32 Swap32(const UINT_32 & iValue);
   @param iValue - value to swap
   @return Swapped value
 */
-UINT_64 Swap64(const UINT_64 & iValue);
+CTPP2DECL UINT_64 Swap64(const UINT_64 & iValue);
 
 /**
   @fn STLW::string URIEscape(const STLW::string & sData)
@@ -128,7 +128,7 @@ UINT_64 Swap64(const UINT_64 & iValue);
   @param sData - value to escape
   @return Escaped value
 */
-STLW::string URIEscape(const STLW::string  & sData);
+CTPP2DECL STLW::string URIEscape(const STLW::string  & sData);
 
 /**
   @fn STLW::string URLEscape(const STLW::string & sData)
@@ -136,7 +136,7 @@ STLW::string URIEscape(const STLW::string  & sData);
   @param sData - value to escape
   @return Escaped value
 */
-STLW::string URLEscape(const STLW::string & sData);
+CTPP2DECL STLW::string URLEscape(const STLW::string & sData);
 
 /**
   @fn STLW::string HTMLEscape(const STLW::string & sData)
@@ -144,7 +144,7 @@ STLW::string URLEscape(const STLW::string & sData);
   @param sData - value to escape
   @return Escaped value
 */
-STLW::string HTMLEscape(const STLW::string & sData);
+CTPP2DECL STLW::string HTMLEscape(const STLW::string & sData);
 
 /**
   @fn STLW::string XMLEscape(const STLW::string & sData)
@@ -152,7 +152,7 @@ STLW::string HTMLEscape(const STLW::string & sData);
   @param sData - value to escape
   @return Escaped value
 */
-STLW::string XMLEscape(const STLW::string & sData);
+CTPP2DECL STLW::string XMLEscape(const STLW::string & sData);
 
 /**
   @fn STLW::string WMLEscape(const STLW::string & sData)
@@ -160,7 +160,7 @@ STLW::string XMLEscape(const STLW::string & sData);
   @param sData - value to escape
   @return Escaped value
 */
-STLW::string WMLEscape(const STLW::string  & sData);
+CTPP2DECL STLW::string WMLEscape(const STLW::string  & sData);
 
 /**
   @fn void CDT2JSON(const CTPP::CDT & oCDT, STLW::string & sData)
@@ -168,7 +168,7 @@ STLW::string WMLEscape(const STLW::string  & sData);
   @param oCDT - input data
   @param sData - output string
 */
-void CDT2JSON(const CDT & oCDT, STLW::string & sData);
+CTPP2DECL void CDT2JSON(const CDT & oCDT, STLW::string & sData);
 
 /**
   @fn void DumpCDT2JSON(const CTPP::CDT & oCDT, DumpBuffer & oBuffer)
@@ -177,7 +177,7 @@ void CDT2JSON(const CDT & oCDT, STLW::string & sData);
   @param oBuffer - buffer to dump CDT to
   @return reference to oBuffer
 */
-DumpBuffer & DumpCDT2JSON(const CTPP::CDT & oCDT, DumpBuffer & oBuffer);
+CTPP2DECL DumpBuffer & DumpCDT2JSON(const CTPP::CDT & oCDT, DumpBuffer & oBuffer);
 
 /**
   @brief Escape string, if need
@@ -185,9 +185,9 @@ DumpBuffer & DumpCDT2JSON(const CTPP::CDT & oCDT, DumpBuffer & oBuffer);
   @param bECMAConventions - use ECMA-262 conventions for escape sequences
   @return Escaped string
 */
-STLW::string EscapeJSONString(const STLW::string  & sSource,
-                              const bool          & bECMAConventions = true,
-                              const bool          & bHTMLSafe = true);
+CTPP2DECL STLW::string EscapeJSONString(const STLW::string  & sSource,
+                                        const bool          & bECMAConventions = true,
+                                        const bool          & bHTMLSafe = true);
 
 /**
   @brief Escape and dump string to buffer
@@ -196,10 +196,10 @@ STLW::string EscapeJSONString(const STLW::string  & sSource,
   @param bECMAConventions - use ECMA-262 conventions for escape sequences
   @return reference to oBuffer
 */
-DumpBuffer & DumpJSONString(DumpBuffer& oBuffer,
-                            const STLW::string & sSource,
-                            const bool & bECMAConventions = true,
-                            const bool & bHTMLSafe = true);
+CTPP2DECL DumpBuffer & DumpJSONString(DumpBuffer& oBuffer,
+                                      const STLW::string & sSource,
+                                      const bool & bECMAConventions = true,
+                                      const bool & bHTMLSafe = true);
 
 /**
   @fn STLW::string Base64Encode(const STLW::string & sData);
@@ -207,7 +207,7 @@ DumpBuffer & DumpJSONString(DumpBuffer& oBuffer,
   @param sData - value to encode
   @return Encoded value
 */
-STLW::string Base64Encode(const STLW::string & sData);
+CTPP2DECL STLW::string Base64Encode(const STLW::string & sData);
 
 /**
   @fn STLW::string Base64Decode(const STLW::string & sData);
@@ -215,7 +215,7 @@ STLW::string Base64Encode(const STLW::string & sData);
   @param sData - value to decode
   @return Decoded value
 */
-STLW::string Base64Decode(const STLW::string & sData);
+CTPP2DECL STLW::string Base64Decode(const STLW::string & sData);
 
 /**
   @fn INT_32 utf_charlen(CCHAR_P szString, CCHAR_P szStringEnd);
@@ -227,7 +227,7 @@ STLW::string Base64Decode(const STLW::string & sData);
           -2 - is not an UTF8 character,
           -3 - unexpected end of string reached
 */
-INT_32 utf_charlen(CCHAR_P szString, CCHAR_P szStringEnd);
+CTPP2DECL INT_32 utf_charlen(CCHAR_P szString, CCHAR_P szStringEnd);
 
 /**
   @fn INT_32 UnicodeToUTF8(UINT_32 iUCS, char * sUTF8)
@@ -236,7 +236,7 @@ INT_32 utf_charlen(CCHAR_P szString, CCHAR_P szStringEnd);
   @param sUTF8 - Pointer to buffer, at least 6 octets
   @return UTF8 character length
 */
-INT_32 UnicodeToUTF8(UINT_32 iUCS, UCHAR_P sUTF8);
+CTPP2DECL INT_32 UnicodeToUTF8(UINT_32 iUCS, UCHAR_P sUTF8);
 
 } // namespace CTPP
 // End.

@@ -1,5 +1,5 @@
 Source: ctpp2
-Section: unknown
+Section: web
 Priority: extra
 Maintainer: Andrei V. Shetuhin <reki@reki.ru>
 Build-Depends: debhelper (>= 5), libssl-dev (>= 0.9.7), cmake (>= 2.6), python-docutils

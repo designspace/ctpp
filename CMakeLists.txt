@@ -7,7 +7,7 @@ PROJECT(CTPP)
 
 SET(CTPP_VERSION_MAJOR 2)
 SET(CTPP_VERSION_MINOR 8)
-SET(CTPP_VERSION_PATCH 2)
+SET(CTPP_VERSION_PATCH 4)
 
 SET(CTPP_VERSION         "${CTPP_VERSION_MAJOR}.${CTPP_VERSION_MINOR}.${CTPP_VERSION_PATCH}")
 SET(CTPP_IDENT           "Dzoraget")
@@ -295,6 +295,10 @@ IF (${ICONV_SUPPORT} MATCHES "ON")
     ENDIF (ICONV_INCLUDE)
 ENDIF (${ICONV_SUPPORT} MATCHES "ON")
 
+IF(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+    FIND_LIBRARY(WS2_32_LIBRARY NAMES ws2_32)
+ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+
 INCLUDE_DIRECTORIES(include)
 INCLUDE_DIRECTORIES(include/functions)
 
@@ -421,7 +425,6 @@ SET(LIBSRCS
             src/functions/FnObjDump.cpp
             src/functions/FnRandom.cpp
             src/functions/FnSize.cpp
-            src/functions/FnStrPos.cpp
             src/functions/FnSprintf.cpp
             src/functions/FnSubstring.cpp
             src/functions/FnTruncate.cpp
@@ -447,7 +450,7 @@ IF(DEBUG_MODE MATCHES "ON")
     SET_TARGET_PROPERTIES(ctpp2 PROPERTIES LINK_FLAGS -Wl,-lgcov)
 ENDIF(DEBUG_MODE MATCHES "ON")
 
-TARGET_LINK_LIBRARIES(ctpp2 ${MD5_LIBRARY} ${ICONV_LIBRARY})
+TARGET_LINK_LIBRARIES(ctpp2 ${MD5_LIBRARY} ${ICONV_LIBRARY} ${WS2_32_LIBRARY})
 
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     SET_TARGET_PROPERTIES(ctpp2 PROPERTIES COMPILE_DEFINITIONS CTPP2_DLL)

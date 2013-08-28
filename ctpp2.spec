@@ -1,6 +1,6 @@
 Summary: 	CTPP2 template engine.
 Name: 		ctpp2
-Version: 	2.8.2
+Version: 	2.8.4
 Release: 	0%{?dist}
 License: 	BSD
 Source: 	ctpp2-%{version}.tar.gz
@@ -33,15 +33,12 @@ make %{?_smp_mflags}
 rm -rf %{buildroot}
 mkdir %{buildroot}
 make DESTDIR=%{buildroot} install
+mkdir $RPM_BUILD_ROOT/usr/share
 mv $RPM_BUILD_ROOT/usr/man $RPM_BUILD_ROOT/usr/share/man
 %if %_lib == "lib64"
 mkdir %{buildroot}/usr/lib64
 mv %{buildroot}/usr/lib/* %{buildroot}/usr/lib64
 %endif
-for i in $RPM_BUILD_ROOT/%{_datadir}/locale/ru.*; do
-	dst=$( echo $i | sed -e "s#ru\\.#ru_RU.#" )
-	mv -f $i $dst
-done
 
 %clean
 rm -rf %{buildroot}
@@ -54,7 +51,6 @@ rm -rf %{buildroot}
 %{_bindir}/ctpp2json
 %{_bindir}/ctpp2vm
 %{_libdir}/libctpp2.so*
-%{_datadir}/locale/*
 #%{_datadir}/locale/ru_RU.CP1251/LC_MESSAGES/ctpp2.mo
 #%{_datadir}/locale/ru_RU.CP866/LC_MESSAGES/ctpp2.mo
 #%{_datadir}/locale/ru_RU.KOI8-R/LC_MESSAGES/ctpp2.mo
@@ -67,6 +63,13 @@ rm -rf %{buildroot}
 %{_libdir}/libctpp2-st.a
 
 %changelog
+* Wed Aug 28 2013 Alexander Pankov <pianist@usrsrc.ru> - 2.8.4-0
++ Default gettext support libintl
+
+* Sat Nov 10 2012 Alexander Pankov <pianist@usrsrc.ru> - 2.8.3-0
++ Returned curly brakets as an alias for square
++ Fixed error reporting
+
 * Fri Jul 13 2012 Andrei V. Shetuhin <reki@reki.ru> - 2.8.2-0
 - Removed TMPL_loop. Added TMPL_foreach's attributes for iterator.
 - TMPL_foreach works with HASH.

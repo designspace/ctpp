@@ -46,7 +46,7 @@ namespace CTPP // C++ Template Engine
   @class SortCompareNum CDTSortRoutines.hpp <CDTSortRoutines.hpp>
   @brief Sorting comparator
 */
-class SortCompareNum:
+class CTPP2DECL SortCompareNum:
   public CDT::SortingComparator
 {
 public:
@@ -77,7 +77,7 @@ private:
   @class SortCompareStr CDTSortRoutines.hpp <CDTSortRoutines.hpp>
   @brief Sorting comparator
 */
-class SortCompareStr:
+class CTPP2DECL SortCompareStr:
   public CDT::SortingComparator
 {
 public:
@@ -108,7 +108,7 @@ private:
   @class SortCompareNumHashElement CDTSortRoutines.hpp <CDTSortRoutines.hpp>
   @brief Sorting comparator
 */
-class SortCompareNumHashElement:
+class CTPP2DECL SortCompareNumHashElement:
   public CDT::SortingComparator
 {
 public:
@@ -144,7 +144,7 @@ private:
   @class SortCompareStrHashElement CDTSortRoutines.hpp <CDTSortRoutines.hpp>
   @brief Sorting comparator
 */
-class SortCompareStrHashElement:
+class CTPP2DECL SortCompareStrHashElement:
   public CDT::SortingComparator
 {
 public:
@@ -180,7 +180,7 @@ private:
   @class SortCompareNumArrayElement CDTSortRoutines.hpp <CDTSortRoutines.hpp>
   @brief Sorting comparator
 */
-class SortCompareNumArrayElement:
+class CTPP2DECL SortCompareNumArrayElement:
   public CDT::SortingComparator
 {
 public:
@@ -215,7 +215,7 @@ private:
   @class SortCompareNumArrayElement CDTSortRoutines.hpp <CDTSortRoutines.hpp>
   @brief Sorting comparator
 */
-class SortCompareStrArrayElement:
+class CTPP2DECL SortCompareStrArrayElement:
   public CDT::SortingComparator
 {
 public:

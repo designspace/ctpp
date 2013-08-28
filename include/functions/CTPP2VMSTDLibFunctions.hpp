@@ -86,7 +86,6 @@
 #include "FnObjDump.hpp"
 #include "FnRandom.hpp"
 #include "FnSize.hpp"
-#include "FnStrPos.hpp"
 #include "FnSprintf.hpp"
 #include "FnSubstring.hpp"
 #include "FnTruncate.hpp"

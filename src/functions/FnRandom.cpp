@@ -35,6 +35,7 @@
 #include "FnRandom.hpp"
 
 #include <stdlib.h>
+#include <time.h>
 
 #ifdef _MSC_VER
 	#define random()        rand()

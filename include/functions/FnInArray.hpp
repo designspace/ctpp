@@ -49,7 +49,7 @@ class Logger;
   @class FnInArray FnInArray.hpp <FnInArray.hpp>
   @brief Search element in given list of elements
 */
-class FnInArray:
+class CTPP2DECL FnInArray:
   public SyscallHandler
 {
 	/**

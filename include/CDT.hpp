@@ -98,7 +98,7 @@ public:
 	enum eMergeStrategy { FAST_MERGE, DEEP_MERGE };
 
 	// FWD
-	class SortingComparator;
+	class CTPP2DECL SortingComparator;
 
 	/**
 	  @brief Constructor
@@ -1746,7 +1746,7 @@ public:
 	  @class SortingComparator CDT.hpp <CDT.hpp>
 	  @brief Sorting comparator
 	*/
-	class SortingComparator
+	class CTPP2DECL SortingComparator
 	{
 	public:
 		/**
@@ -1769,13 +1769,13 @@ public:
 	};
 
 	// FWD
-	class ConstIterator;
+	class CTPP2DECL ConstIterator;
 
 	/**
 	  @class Iterator CDT.hpp <CDT.hpp>
 	  @brief CDT[HASH] forward iterator
 	*/
-	class Iterator
+	class CTPP2DECL Iterator
 	{
 	private:
 		friend class CDT;
@@ -1854,7 +1854,7 @@ public:
 	  @class ConstIterator CDT.hpp <CDT.hpp>
 	  @brief CDT[HASH] forward constant iterator
 	*/
-	class ConstIterator
+	class CTPP2DECL ConstIterator
 	{
 	private:
 		friend class CDT;
@@ -1949,13 +1949,13 @@ public:
 
 private:
 	// Friends
-	friend CDT operator-(const UINT_64 & oValue, const CDT & oCDT);
-	friend CDT operator-(const INT_64  & oValue, const CDT & oCDT);
-	friend CDT operator-(const W_FLOAT & oValue, const CDT & oCDT);
+	CTPP2DECL friend CDT operator-(const UINT_64 & oValue, const CDT & oCDT);
+	CTPP2DECL friend CDT operator-(const INT_64  & oValue, const CDT & oCDT);
+	CTPP2DECL friend CDT operator-(const W_FLOAT & oValue, const CDT & oCDT);
 
-	friend CDT operator/(const UINT_64 & oValue, const CDT & oCDT);
-	friend CDT operator/(const INT_64  & oValue, const CDT & oCDT);
-	friend CDT operator/(const W_FLOAT & oValue, const CDT & oCDT);
+	CTPP2DECL friend CDT operator/(const UINT_64 & oValue, const CDT & oCDT);
+	CTPP2DECL friend CDT operator/(const INT_64  & oValue, const CDT & oCDT);
+	CTPP2DECL friend CDT operator/(const W_FLOAT & oValue, const CDT & oCDT);
 
 	// FWD
 	struct _CDT;
@@ -2022,7 +2022,7 @@ private:
   @param oCDT - 2-nd argument
   @return result of addition with same type of oCDT
 */
-CDT operator+(const UINT_64 & oValue, const CDT & oCDT);
+CTPP2DECL CDT operator+(const UINT_64 & oValue, const CDT & oCDT);
 
 /**
   @brief Operator + for INT_64 and CDT arguments
@@ -2030,7 +2030,7 @@ CDT operator+(const UINT_64 & oValue, const CDT & oCDT);
   @param oCDT - 2-nd argument
   @return result of addition with same type of oCDT
 */
-CDT operator+(const INT_64 & oValue, const CDT & oCDT);
+CTPP2DECL CDT operator+(const INT_64 & oValue, const CDT & oCDT);
 
 /**
   @brief Operator + for UINT_32 and CDT arguments
@@ -2038,7 +2038,7 @@ CDT operator+(const INT_64 & oValue, const CDT & oCDT);
   @param oCDT - 2-nd argument
   @return result of addition with same type of oCDT
 */
-CDT operator+(const UINT_32 & oValue, const CDT & oCDT);
+CTPP2DECL CDT operator+(const UINT_32 & oValue, const CDT & oCDT);
 
 /**
   @brief Operator + for INT_32 and CDT arguments
@@ -2046,7 +2046,7 @@ CDT operator+(const UINT_32 & oValue, const CDT & oCDT);
   @param oCDT - 2-nd argument
   @return result of addition with same type of oCDT
 */
-CDT operator+(const INT_32 & oValue, const CDT & oCDT);
+CTPP2DECL CDT operator+(const INT_32 & oValue, const CDT & oCDT);
 
 /**
   @brief Operator + for W_FLOAT and CDT arguments
@@ -2054,7 +2054,7 @@ CDT operator+(const INT_32 & oValue, const CDT & oCDT);
   @param oCDT - 2-nd argument
   @return result of addition with same type of oCDT
 */
-CDT operator+(const W_FLOAT & oValue, const CDT & oCDT);
+CTPP2DECL CDT operator+(const W_FLOAT & oValue, const CDT & oCDT);
 
 // ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -2064,7 +2064,7 @@ CDT operator+(const W_FLOAT & oValue, const CDT & oCDT);
   @param oCDT - 2-nd argument
   @return result of substraction with same type of oCDT
 */
-CDT operator-(const UINT_64 & oValue, const CDT & oCDT);
+CTPP2DECL CDT operator-(const UINT_64 & oValue, const CDT & oCDT);
 
 /**
   @brief Operator - for INT_64 and CDT arguments
@@ -2072,7 +2072,7 @@ CDT operator-(const UINT_64 & oValue, const CDT & oCDT);
   @param oCDT - 2-nd argument
   @return result of substraction with same type of oCDT
 */
-CDT operator-(const INT_64 & oValue, const CDT & oCDT);
+CTPP2DECL CDT operator-(const INT_64 & oValue, const CDT & oCDT);
 
 /**
   @brief Operator - for UINT_32 and CDT arguments
@@ -2080,7 +2080,7 @@ CDT operator-(const INT_64 & oValue, const CDT & oCDT);
   @param oCDT - 2-nd argument
   @return result of substraction with same type of oCDT
 */
-CDT operator-(const UINT_32 & oValue, const CDT & oCDT);
+CTPP2DECL CDT operator-(const UINT_32 & oValue, const CDT & oCDT);
 
 /**
   @brief Operator - for INT_32 and CDT arguments
@@ -2088,7 +2088,7 @@ CDT operator-(const UINT_32 & oValue, const CDT & oCDT);
   @param oCDT - 2-nd argument
   @return result of substraction with same type of oCDT
 */
-CDT operator-(const INT_32 & oValue, const CDT & oCDT);
+CTPP2DECL CDT operator-(const INT_32 & oValue, const CDT & oCDT);
 
 /**
   @brief Operator - for W_FLOAT and CDT arguments
@@ -2096,7 +2096,7 @@ CDT operator-(const INT_32 & oValue, const CDT & oCDT);
   @param oCDT - 2-nd argument
   @return result of substraction with same type of oCDT
 */
-CDT operator-(const W_FLOAT & oValue, const CDT & oCDT);
+CTPP2DECL CDT operator-(const W_FLOAT & oValue, const CDT & oCDT);
 
 // ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -2106,7 +2106,7 @@ CDT operator-(const W_FLOAT & oValue, const CDT & oCDT);
   @param oCDT - 2-nd argument
   @return result of multiplication with same type of oCDT
 */
-CDT operator*(const UINT_64 & oValue, const CDT & oCDT);
+CTPP2DECL CDT operator*(const UINT_64 & oValue, const CDT & oCDT);
 
 /**
   @brief Operator * for INT_64 and CDT arguments
@@ -2114,7 +2114,7 @@ CDT operator*(const UINT_64 & oValue, const CDT & oCDT);
   @param oCDT - 2-nd argument
   @return result of multiplication with same type of oCDT
 */
-CDT operator*(const INT_64 & oValue, const CDT & oCDT);
+CTPP2DECL CDT operator*(const INT_64 & oValue, const CDT & oCDT);
 
 /**
   @brief Operator * for UINT_32 and CDT arguments
@@ -2122,7 +2122,7 @@ CDT operator*(const INT_64 & oValue, const CDT & oCDT);
   @param oCDT - 2-nd argument
   @return result of multiplication with same type of oCDT
 */
-CDT operator*(const UINT_32 & oValue, const CDT & oCDT);
+CTPP2DECL CDT operator*(const UINT_32 & oValue, const CDT & oCDT);
 
 /**
   @brief Operator * for INT_32 and CDT arguments
@@ -2130,7 +2130,7 @@ CDT operator*(const UINT_32 & oValue, const CDT & oCDT);
   @param oCDT - 2-nd argument
   @return result of multiplication with same type of oCDT
 */
-CDT operator*(const INT_32 & oValue, const CDT & oCDT);
+CTPP2DECL CDT operator*(const INT_32 & oValue, const CDT & oCDT);
 
 /**
   @brief Operator * for W_FLOAT and CDT arguments
@@ -2138,7 +2138,7 @@ CDT operator*(const INT_32 & oValue, const CDT & oCDT);
   @param oCDT - 2-nd argument
   @return result of multiplication with same type of oCDT
 */
-CDT operator*(const W_FLOAT & oValue, const CDT & oCDT);
+CTPP2DECL CDT operator*(const W_FLOAT & oValue, const CDT & oCDT);
 
 // ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -2148,7 +2148,7 @@ CDT operator*(const W_FLOAT & oValue, const CDT & oCDT);
   @param oCDT - 2-nd argument
   @return result of division with same type of oCDT
 */
-CDT operator/(const UINT_64 & oValue, const CDT & oCDT);
+CTPP2DECL CDT operator/(const UINT_64 & oValue, const CDT & oCDT);
 
 /**
   @brief Operator / for INT_64 and CDT arguments
@@ -2156,7 +2156,7 @@ CDT operator/(const UINT_64 & oValue, const CDT & oCDT);
   @param oCDT - 2-nd argument
   @return result of division with same type of oCDT
 */
-CDT operator/(const INT_64 & oValue, const CDT & oCDT);
+CTPP2DECL CDT operator/(const INT_64 & oValue, const CDT & oCDT);
 
 /**
   @brief Operator / for UINT_32 and CDT arguments
@@ -2164,7 +2164,7 @@ CDT operator/(const INT_64 & oValue, const CDT & oCDT);
   @param oCDT - 2-nd argument
   @return result of division with same type of oCDT
 */
-CDT operator/(const UINT_32 & oValue, const CDT & oCDT);
+CTPP2DECL CDT operator/(const UINT_32 & oValue, const CDT & oCDT);
 
 /**
   @brief Operator / for INT_32 and CDT arguments
@@ -2172,7 +2172,7 @@ CDT operator/(const UINT_32 & oValue, const CDT & oCDT);
   @param oCDT - 2-nd argument
   @return result of division with same type of oCDT
 */
-CDT operator/(const INT_32 & oValue, const CDT & oCDT);
+CTPP2DECL CDT operator/(const INT_32 & oValue, const CDT & oCDT);
 
 /**
   @brief Operator / for W_FLOAT and CDT arguments
@@ -2180,7 +2180,7 @@ CDT operator/(const INT_32 & oValue, const CDT & oCDT);
   @param oCDT - 2-nd argument
   @return result of division with same type of oCDT
 */
-CDT operator/(const W_FLOAT & oValue, const CDT & oCDT);
+CTPP2DECL CDT operator/(const W_FLOAT & oValue, const CDT & oCDT);
 
 } // namespace CTPP
 #endif // _CDT_HPP__
