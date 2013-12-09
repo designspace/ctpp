@@ -17,11 +17,13 @@ else
 	CFLAGS += -O2
 endif
 
+CXXFLAGS=${CFLAGS}
+
 configure: configure-stamp
 configure-stamp:
 	dh_testdir
 	# Add here commands to configure the package.
-	cmake -D SKIP_RELINK_RPATH=ON . -DCMAKE_INSTALL_PREFIX=/usr -DCFLAGS="${CFLAGS}" -DCXXFLAGS="${CXXFLAGS}"
+	cmake -D SKIP_RELINK_RPATH=ON . -DCMAKE_INSTALL_PREFIX=/usr -DCFLAGS="${CFLAGS}" -DCXX_FLAGS="${CXXFLAGS}"
 	touch configure-stamp
 
 
