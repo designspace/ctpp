@@ -76,11 +76,16 @@ INT_32 FnGetText::Handler(CDT            * aArguments,
 		}
 		else if (iArgNum == 3)
 		{
-			oCDTRetVal = dcgettext(aArguments[2].GetString().c_str(), aArguments[1].GetString().c_str(), INT_32(aArguments[3].GetInt()));
+			oCDTRetVal = ngettext(aArguments[0].GetString().c_str(), aArguments[1].GetString().c_str(), INT_32(aArguments[2].GetInt()));
+			return 0;
+		}
+		else if (iArgNum == 4)
+		{
+			oCDTRetVal = dngettext(aArguments[3].GetString().c_str(), aArguments[0].GetString().c_str(), aArguments[1].GetString().c_str(), INT_32(aArguments[2].GetInt()));
 			return 0;
 		}
 
-		oLogger.Emerg("Usage: GETTEXT(message) or GETTEXT(message, domain) or GETTEXT(message, domain, category)");
+		oLogger.Emerg("Usage: GETTEXT(message) or GETTEXT(message, domain) or GETTEXT(message, message_plural, N) or GETTEXT(message, message_plural, N, domain)");
 		return -1;
 	}
 
