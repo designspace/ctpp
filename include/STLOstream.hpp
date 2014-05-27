@@ -1,5 +1,5 @@
 /*-
- * Copyright (c) 2005 - 2011 CAS Dev Team
+ * Copyright (c) 2004 - 2014 CAS Dev Team
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions

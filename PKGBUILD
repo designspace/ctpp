@@ -1,7 +1,7 @@
 # Maintainer: Valentin V. Bartenev <i@vbart.ru>
 
 pkgname=ctpp2
-pkgver=2.8.0
+pkgver=2.8.4
 pkgrel=1
 pkgdesc="Template engine completely written in C++"
 arch=('i686' 'x86_64')

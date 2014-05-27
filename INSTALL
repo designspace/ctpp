@@ -125,11 +125,21 @@ PLATFORM SPECIFIC NOTES
     Ubuntu
     ------
       |
+      |- Ubuntu 12.04 LTS
+      |  i386, gcc version 4.6.3 (Ubuntu/Linaro 4.6.3-1ubuntu5)
+      |  x86_64, gcc version 4.6.3 (Ubuntu/Linaro 4.6.3-1ubuntu5)
+      |
       |- Ubuntu 10.04 LTS
       |  i386, gcc version 4.4.3 (Ubuntu 4.4.3-4ubuntu5)
       |
       |- Ubuntu 12.04.1 LTS
-      |  x86_64, gcc version 4.6.3 (Ubuntu/Linaro 4.6.3-1ubuntu5)
+         x86_64, gcc version 4.6.3 (Ubuntu/Linaro 4.6.3-1ubuntu5)
+
+    Astra Linux
+    -----------
+      |
+      |- Astra Linux SE 1.3 (smolensk)
+         x86_64, gcc version 4.7.1 (Debian 4.7.1-2)
 
     Arch Linux
     ----------

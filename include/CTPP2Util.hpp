@@ -1,5 +1,5 @@
 /*-
- * Copyright (c) 2004 - 2011 CTPP Team
+ * Copyright (c) 2004 - 2014 CTPP Team
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -42,60 +42,7 @@ namespace CTPP // C++ Template Engine
 {
 // FWD
 class CDT;
-
-/**
-  @class DumpBuffer CTPP2Util.hpp <CTPP2Util.hpp>
-  @brief Buffer for dumping CDTs. Used as an alternative for std::string (as string's append is quite slow)
-*/
-class CTPP2DECL DumpBuffer {
-public:
-	/**
-	  @var typedef UINT_32 StreamSize
-	  @brief internal size_t analog
-	*/
-	typedef UINT_32 StreamSize;
-
-	/**
-	  @brief Constructor
-	*/
-	DumpBuffer();
-
-	/**
-	  @brief Destructor
-	*/
-	~DumpBuffer();
-
-	/**
-	  @brief Appends data to the buffer
-	  @param data - ponter to data to append
-	  @param n - number of bytes to append
-	*/
-	void Write(CCHAR_P pData , StreamSize iSize);
-
-	/**
-	  @brief Returns pointer to buffer's start
-	  @return Pointer to buffer's start
-	*/
-	CCHAR_P Data() const;
-
-	/**
-	  @brief Returns number of bytes available in buffer
-	  @return Number of bytes available in buffer
-	*/
-	StreamSize Size() const;
-
-private:
-	/**
-	  @brief Reallocates buffer if necessary
-	  @param n - new capacity (if it's less then current capacity, method does nothing)
-	*/
-	void Reserve(StreamSize iSize);
-
-	CHAR_P pBuffer;
-	CHAR_P pPos;
-
-	StreamSize iCapacity;
-};
+class DataBuffer;
 
 /**
   @fn UINT_32 crc32(UCCHAR_P sBuffer, const UINT_32 & iSize)
@@ -171,13 +118,30 @@ CTPP2DECL STLW::string WMLEscape(const STLW::string  & sData);
 CTPP2DECL void CDT2JSON(const CDT & oCDT, STLW::string & sData);
 
 /**
-  @fn void DumpCDT2JSON(const CTPP::CDT & oCDT, DumpBuffer & oBuffer)
+  @fn void CDT2BSON(const CTPP::CDT & oCDT, STLW::string & sData)
+  @brief Dump CDT to JSON
+  @param oCDT - input data
+  @param sData - output string
+*/
+CTPP2DECL void CDT2BSON(const CDT & oCDT, STLW::string & sData);
+
+/**
+  @fn void DumpCDT2JSON(const CTPP::CDT & oCDT, DataBuffer & oBuffer)
   @brief Dump CDT to JSON
   @param oCDT - input data
   @param oBuffer - buffer to dump CDT to
   @return reference to oBuffer
 */
-CTPP2DECL DumpBuffer & DumpCDT2JSON(const CTPP::CDT & oCDT, DumpBuffer & oBuffer);
+CTPP2DECL DataBuffer & DumpCDT2JSON(const CTPP::CDT & oCDT, DataBuffer & oBuffer);
+
+/**
+  @fn void DumpCDT2BSON(const CTPP::CDT & oCDT, DataBuffer & oBuffer)
+  @brief Dump CDT to BSON
+  @param oCDT - input data
+  @param oBuffer - buffer to dump CDT to
+  @return reference to oBuffer
+*/
+CTPP2DECL DataBuffer & DumpCDT2BSON(const CTPP::CDT & oCDT, DataBuffer & oBuffer);
 
 /**
   @brief Escape string, if need
@@ -196,7 +160,7 @@ CTPP2DECL STLW::string EscapeJSONString(const STLW::string  & sSource,
   @param bECMAConventions - use ECMA-262 conventions for escape sequences
   @return reference to oBuffer
 */
-CTPP2DECL DumpBuffer & DumpJSONString(DumpBuffer& oBuffer,
+CTPP2DECL DataBuffer & DumpJSONString(DataBuffer& oBuffer,
                                       const STLW::string & sSource,
                                       const bool & bECMAConventions = true,
                                       const bool & bHTMLSafe = true);

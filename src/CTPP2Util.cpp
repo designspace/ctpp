@@ -1,5 +1,5 @@
 /*-
- * Copyright (c) 2004 - 2011 CTPP Team
+ * Copyright (c) 2004 - 2014 CTPP Team
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -31,7 +31,7 @@
  */
 #include "CTPP2Util.hpp"
 #include "CTPP2Exception.hpp"
-
+#include "CTPP2DataBuffer.hpp"
 #include "CDT.hpp"
 
 #include <stdio.h>
@@ -564,96 +564,97 @@ return sRetVal;
 //
 STLW::string EscapeJSONString(const STLW::string & sSource, const bool & bECMAConventions, const bool & bHTMLSafe)
 {
-    DumpBuffer oBuff;
-    DumpJSONString(oBuff, sSource, bECMAConventions, bHTMLSafe);
-    return STLW::string(oBuff.Data(), oBuff.Size());
+	DataBuffer oBuff;
+	DumpJSONString(oBuff, sSource, bECMAConventions, bHTMLSafe);
+
+return STLW::string(oBuff.Data(), oBuff.Size());
 }
 
 
 //
 // Escape and dump string to buffer
 //
-DumpBuffer & DumpJSONString(DumpBuffer & sResult, const STLW::string & sSource, const bool & bECMAConventions, const bool & bHTMLSafe)
+DataBuffer & DumpJSONString(DataBuffer & sResult, const STLW::string & sSource, const bool & bECMAConventions, const bool & bHTMLSafe)
 {
-    INT_32 iPos = 0;
-    INT_32 iSize = sSource.size();
-    INT_32 iOffset = 0;
+	INT_32 iPos = 0;
+	INT_32 iSize = sSource.size();
+	INT_32 iOffset = 0;
 
-    while (iSize--)
-    {
-        const UCHAR_8 uCH = sSource[iPos];
-        const CHAR_8 * sEscaped = NULL;
-        bool bFound = false;
+	while (iSize--)
+	{
+		const UCHAR_8 uCH = sSource[iPos];
+		const CHAR_8 * sEscaped = NULL;
+		bool bFound = false;
 
-        switch (uCH)
-        {
-            case '"':
-                sEscaped = "\\\"";
-                bFound = true;
-                break;
-            case '\\':
-                sEscaped = "\\\\";
-                bFound = true;
-                break;
-            case '/':
-                sEscaped = "\\/";
-                bFound = true;
-                break;
-            case '\b':
-                sEscaped = "\\b";
-                bFound = true;
-                break;
-            case '\f':
-                sEscaped = "\\f";
-                bFound = true;
-                break;
-            case '\n':
-                sEscaped = "\\n";
-                bFound = true;
-                break;
-            case '\r':
-                sEscaped = "\\r";
-                bFound = true;
-                break;
-            case '\t':
-                sEscaped = "\\t";
-                bFound = true;
-                break;
-            case '\'':
-                sEscaped = "\\'";
-                if (bECMAConventions) { bFound = true; }
-                break;
-            case '\v':
-                sEscaped = "\\v";
-                if (bECMAConventions) { bFound = true; }
-                break;
-            case '\0':
-                sEscaped = "\\0";
-                if (bECMAConventions) { bFound = true; }
-                break;
-            default:
-                break;
-        }
+		switch (uCH)
+		{
+			case '"':
+				sEscaped = "\\\"";
+				bFound = true;
+			    break;
+			case '\\':
+				sEscaped = "\\\\";
+				bFound = true;
+				break;
+			case '/':
+				sEscaped = "\\/";
+				bFound = true;
+				break;
+			case '\b':
+				sEscaped = "\\b";
+				bFound = true;
+				break;
+			case '\f':
+				sEscaped = "\\f";
+				bFound = true;
+				break;
+			case '\n':
+				sEscaped = "\\n";
+				bFound = true;
+				break;
+			case '\r':
+				sEscaped = "\\r";
+				bFound = true;
+				break;
+			case '\t':
+				sEscaped = "\\t";
+				bFound = true;
+				break;
+			case '\'':
+				sEscaped = "\\'";
+				if (bECMAConventions) { bFound = true; }
+				break;
+			case '\v':
+				sEscaped = "\\v";
+				if (bECMAConventions) { bFound = true; }
+				break;
+			case '\0':
+				sEscaped = "\\0";
+				if (bECMAConventions) { bFound = true; }
+				break;
+			default:
+				break;
+		}
 
-        if (bFound)
-        {
-            if (iPos - iOffset > 0) { sResult.Write(sSource.c_str() + iOffset, iPos - iOffset); }
-            sResult.Write(sEscaped, strlen(sEscaped));
-            iOffset = iPos + 1;
-        }
-        else if (uCH < ' ' || (bHTMLSafe && (uCH == '<' || uCH == '>')))
-        {
-            if (iPos - iOffset > 0) { sResult.Write(sSource.c_str() + iOffset, iPos - iOffset); }
-            CHAR_8 szBuffer[7] = { '\0' };
-            const CHAR_8 *szHexChars = "0123456789abcdef";
+		if (bFound)
+		{
+			if (iPos - iOffset > 0) { sResult.Append(sSource.c_str() + iOffset, iPos - iOffset); }
+			sResult.Append(sEscaped, strlen(sEscaped));
+			iOffset = iPos + 1;
+		}
+		else if (uCH < ' ' || (bHTMLSafe && (uCH == '<' || uCH == '>')))
+		{
+			if (iPos - iOffset > 0) { sResult.Append(sSource.c_str() + iOffset, iPos - iOffset); }
+			CHAR_8 szBuffer[7] = { '\0' };
+			const CHAR_8 *szHexChars = "0123456789abcdef";
 			snprintf(szBuffer, 7, "\\u00%c%c", szHexChars[uCH >> 4], szHexChars[uCH & 0xF]);
-			sResult.Write(szBuffer, 6);
-            iOffset = iPos + 1;
-        }
-        ++iPos;
-    }
+			sResult.Append(szBuffer, 6);
+			iOffset = iPos + 1;
+		}
+		++iPos;
+	}
 
-    if (iPos - iOffset > 0) { sResult.Write(sSource.c_str() + iOffset, iPos - iOffset); }
+	if (iPos - iOffset > 0) { sResult.Append(sSource.c_str() + iOffset, iPos - iOffset); }
 
 return sResult;
 }
@@ -663,58 +664,30 @@ return sResult;
 //
 void CDT2JSON(const CTPP::CDT & oCDT, STLW::string & sData)
 {
-    DumpBuffer oBuff;
-    DumpCDT2JSON(oCDT, oBuff);
-    sData.append(oBuff.Data(), oBuff.Size());
+	DataBuffer oBuff;
+	DumpCDT2JSON(oCDT, oBuff);
+	sData.append(oBuff.Data(), oBuff.Size());
 }
 
-DumpBuffer::~DumpBuffer()
+//
+// Dump CDT to BSON
+//
+void CDT2BSON(const CTPP::CDT & oCDT, STLW::string & sData)
 {
-	free(pBuffer);
-}
-
-DumpBuffer::DumpBuffer()
-{
-	pBuffer = 0;
-	iCapacity = 0;
-	pPos = 0;
-}
-
-CCHAR_P DumpBuffer::Data() const { return pBuffer; }
-
-DumpBuffer::StreamSize DumpBuffer::Size() const { return pPos - pBuffer; }
-
-void DumpBuffer::Reserve(DumpBuffer::StreamSize iN)
-{
-	if (iN <= iCapacity) { return; }
-
-	StreamSize iOffset = pPos - pBuffer;
-	CHAR_P pTmp = (CHAR_P) realloc(pBuffer, iN);
-	if(!pTmp) { throw CTPPNoMemoryError(); }
-	pBuffer = pTmp;
-
-	pPos = pBuffer + iOffset;
-	iCapacity = iN;
-}
-
-void DumpBuffer::Write(CCHAR_P pStr, DumpBuffer::StreamSize iN) {
-	if(pPos + iN > pBuffer + iCapacity) {
-		Reserve(2 * (iCapacity + iN));
-	}
-	memcpy(pPos, pStr, iN);
-	pPos += iN;
+	DataBuffer oBuff;
+	DumpCDT2BSON(oCDT, oBuff);
+	sData.append(oBuff.Data(), oBuff.Size());
 }
 
 //
 // Escape and dump string to buffer
 //
-DumpBuffer & DumpCDT2JSON(const CTPP::CDT & oCDT, DumpBuffer & oResult)
+DataBuffer & DumpCDT2JSON(const CTPP::CDT & oCDT, DataBuffer & oResult)
 {
-	using namespace CTPP;
 	switch (oCDT.GetType())
 	{
 		case CDT::UNDEF:
-			oResult.Write("null", 4);
+			oResult.Append("null", 4);
 			break;
 
 		case CDT::INT_VAL:
@@ -722,52 +695,255 @@ DumpBuffer & DumpCDT2JSON(const CTPP::CDT & oCDT, DumpBuffer & oResult)
 		case CDT::POINTER_VAL:
 		case CDT::STRING_INT_VAL:
 		case CDT::STRING_REAL_VAL:
-            {
-				STLW::string tmp = oCDT.GetString();
-				oResult.Write(tmp.data(), tmp.size());
+			{
+				STLW::string sTMP = oCDT.GetString();
+				oResult.Append(sTMP.data(), sTMP.size());
 			}
 			break;
 
 		case CDT::STRING_VAL:
-			oResult.Write("\"", 1);
+			oResult.Append("\"", 1);
 			DumpJSONString(oResult, oCDT.GetString(), false);
-			oResult.Write("\"", 1);
+			oResult.Append("\"", 1);
 			break;
 
 		case CDT::ARRAY_VAL:
 			{
-				oResult.Write("[", 1);
+				oResult.Append("[", 1);
 				UINT_32 iJ = 0;
 				while (iJ < oCDT.Size())
 				{
 					DumpCDT2JSON(oCDT.GetCDT(iJ), oResult);
 					++iJ;
-					if (iJ != oCDT.Size()) { oResult.Write(",", 1); }
+					if (iJ != oCDT.Size()) { oResult.Append(",", 1); }
 				}
-				oResult.Write("]", 1);
+				oResult.Append("]", 1);
 			}
 			break;
 
 		case CDT::HASH_VAL:
 			{
-				oResult.Write("{", 1);
+				oResult.Append("{", 1);
 				CDT::ConstIterator itCDTCArray = oCDT.Begin();
 				while (itCDTCArray != oCDT.End())
 				{
-					oResult.Write("\"", 1);
+					oResult.Append("\"", 1);
 					DumpJSONString(oResult, itCDTCArray -> first, false);
-					oResult.Write("\":", 2);
+					oResult.Append("\":", 2);
 
 					DumpCDT2JSON(itCDTCArray -> second, oResult);
 
 					++itCDTCArray;
-					if (itCDTCArray != oCDT.End()) { oResult.Write(",", 1); }
+					if (itCDTCArray != oCDT.End()) { oResult.Append(",", 1); }
 				}
-				oResult.Write("}", 1);
+				oResult.Append("}", 1);
 			}
 			break;
 	}
 
+return oResult;
+}
+
+//
+// Dump 8-bit unsigned char
+//
+static void DumpUChar8(const UCHAR_8   iData,
+                       DataBuffer    & oResult)
+{
+	oResult.Append(&iData, 1);
+}
+
+//
+// Dump 32-bit unsigned integer
+//
+static void DumpUInt32(const UINT_32   iData,
+                       DataBuffer    & oResult)
+{
+	for (UINT_32 iPos = 0; iPos < 4; ++iPos)
+	{
+		const UCHAR_8 ucTMP = iData >> (8 * iPos);
+		oResult.Append(&ucTMP, 1);
+	}
+}
+
+//
+// Dump 32-bit integer
+//
+static void DumpInt32(const INT_32    iData,
+                      DataBuffer    & oResult)
+{
+	DumpUInt32(iData, oResult);
+}
+
+//
+// Dump 64-bit integer
+//
+static void DumpUInt64(const INT_64    iData,
+                      DataBuffer    & oResult)
+{
+
+	for (UINT_32 iPos = 0; iPos < 8; ++iPos)
+	{
+		const UCHAR_8 ucTMP = iData >> (8 * iPos);
+		oResult.Append(&ucTMP, 1);
+	}
+}
+
+//
+// Dump 64-bit integer
+//
+static void DumpInt64(const INT_64    iData,
+                      DataBuffer    & oResult)
+{
+	DumpUInt64(iData, oResult);
+}
+
+//
+// Dump ieee 788
+//
+static void DumpWFloat(const W_FLOAT   dData,
+                       DataBuffer    & oResult)
+{
+	oResult.Append(&dData, 8);
+}
+
+//
+// Dump string
+//
+static void DumpString(const STLW::string  & sData,
+                       DataBuffer          & oResult,
+                       const bool            bCString)
+{
+	if (!bCString) { DumpUInt32(sData.size() + 1, oResult); }
+	oResult.Append(sData.data(), sData.size() + 1);
+}
+
+//
+// Dump type
+//
+static void DumpType(const CDT   & oCDT,
+                     DataBuffer  & oResult)
+{
+	switch (oCDT.GetType())
+	{
+		case CDT::UNDEF:
+			DumpUChar8(0x0A, oResult);
+			break;
+
+		case CDT::INT_VAL:
+		case CDT::STRING_INT_VAL:
+			// Special case
+			{
+				const INT_64 iVal = oCDT.GetInt();
+				if (iVal >= -2147483648ll && iVal <= 2147483647ll) { DumpUChar8(0x10, oResult); }
+				else                                               { DumpUChar8(0x12, oResult); }
+			}
+			break;
+
+		case CDT::REAL_VAL:
+		case CDT::STRING_REAL_VAL:
+			DumpUChar8(0x01, oResult);
+			break;
+
+		case CDT::POINTER_VAL:
+			DumpUChar8(0x12, oResult);
+			break;
+
+		case CDT::STRING_VAL:
+			DumpUChar8(0x02, oResult);
+			break;
+
+		case CDT::ARRAY_VAL:
+			DumpUChar8(0x04, oResult);
+			break;
+
+		case CDT::HASH_VAL:
+			DumpUChar8(0x03, oResult);
+			break;
+	}
+}
+
+//
+// Escape and dump string to buffer
+//
+DataBuffer & DumpCDT2BSON(const CTPP::CDT & oCDT, DataBuffer & oResult)
+{
+	switch (oCDT.GetType())
+	{
+		case CDT::UNDEF:
+			break;
+
+		case CDT::INT_VAL:
+		case CDT::STRING_INT_VAL:
+			{
+				const INT_64 iVal = oCDT.GetInt();
+				if (iVal >= -2147483648ll && iVal <= 2147483647ll) { DumpInt32(iVal, oResult); }
+				else                                               { DumpInt64(iVal, oResult); }
+			}
+			break;
+
+		case CDT::REAL_VAL:
+		case CDT::STRING_REAL_VAL:
+			DumpWFloat(oCDT.GetFloat(), oResult);
+			break;
+
+		case CDT::POINTER_VAL:
+			DumpUInt64(oCDT.GetFloat(), oResult);
+			break;
+
+		case CDT::STRING_VAL:
+			{
+				// Check UTF-8, TBD
+				DumpString(oCDT.GetString(), oResult, false);
+			}
+			break;
+
+		case CDT::ARRAY_VAL:
+			{
+				// Dump size
+				DataBuffer oBuffer;
+				UINT_32 iPos = 0;
+				while (iPos < oCDT.Size())
+				{
+					const CDT & oTMP = oCDT.GetCDT(iPos);
+					DumpType(oTMP, oBuffer);
+
+					// Index
+					CHAR_8 szTMP[32];
+					snprintf(szTMP, 31, "%u", iPos);
+					DumpString(szTMP, oBuffer, true);
+
+					// Value
+					DumpCDT2BSON(oTMP, oBuffer);
+					++iPos;
+				}
+				DumpUChar8(0x00, oBuffer);
+				DumpInt32(oBuffer.Size() + 4, oResult);
+				oResult.Append(oBuffer);
+			}
+			break;
+
+		case CDT::HASH_VAL:
+			{
+				DataBuffer oBuffer;
+				CDT::ConstIterator itCDTCArray = oCDT.Begin();
+				while (itCDTCArray != oCDT.End())
+				{
+					// Type
+					DumpType(itCDTCArray -> second, oBuffer);
+					// Key
+					DumpString(itCDTCArray -> first, oBuffer, true);
+					// Value
+					DumpCDT2BSON(itCDTCArray -> second, oBuffer);
+
+					++itCDTCArray;
+				}
+				DumpUChar8(0x00, oBuffer);
+				DumpInt32(oBuffer.Size() + 4, oResult);
+				oResult.Append(oBuffer);
+			}
+			break;
+	}
 return oResult;
 }
 

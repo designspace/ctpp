@@ -22,6 +22,7 @@
 #include <CTPP2ParserException.hpp>
 #include <CDT.hpp>
 #include <CTPP2Util.hpp>
+#include <CTPP2DataBuffer.hpp>
 
 using namespace CTPP;
 using namespace std;
@@ -87,7 +88,7 @@ int main(int argc, char ** argv) {
 	STLW::string s1;
 	STLW::string s2;
 	CDT2JSON(cdt, s1);
-	DumpBuffer ss;
+	DataBuffer ss;
 	DumpCDT2JSON(cdt, ss);
 	s2.assign(ss.Data(), ss.Data() + ss.Size());
 	if(s1 != s2) {
@@ -119,7 +120,7 @@ int main(int argc, char ** argv) {
 	{
 		unsigned long t0 = getMSTime();
 		for(unsigned long i = 0; i < total; ++i) {
-			DumpBuffer ss;
+			DataBuffer ss;
 			DumpCDT2JSON(cdt, ss);
 		}
 		unsigned long t1 = getMSTime();

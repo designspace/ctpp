@@ -1,5 +1,5 @@
 /*-
- * Copyright (c) 2004 - 2011 CTPP Team
+ * Copyright (c) 2004 - 2014 CTPP Team
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -39,8 +39,6 @@
 #else
 #include <strings.h>
 #endif
-#include <libintl.h>
-
 #include "CTPP2GetText.hpp"
 
 namespace CTPP // C++ Template Engine
@@ -58,29 +56,13 @@ FnGetText::FnGetText(CCHAR_P szAlias) : pGetText(NULL), szFuncName(strdup(szAlia
 // Handler
 //
 INT_32 FnGetText::Handler(CDT            * aArguments,
-		          const UINT_32    iArgNum,
-		          CDT            & oCDTRetVal,
-		          Logger         & oLogger)
+                          const UINT_32    iArgNum,
+                          CDT            & oCDTRetVal,
+                          Logger         & oLogger)
 {
 	if (pGetText == NULL)
 	{
-		if (iArgNum == 1)
-		{
-			oCDTRetVal = gettext(aArguments[0].GetString().c_str());
-			return 0;
-		}
-		else if (iArgNum == 2)
-		{
-			oCDTRetVal = dgettext(aArguments[1].GetString().c_str(), aArguments[0].GetString().c_str());
-			return 0;
-		}
-		else if (iArgNum == 3)
-		{
-			oCDTRetVal = dcgettext(aArguments[2].GetString().c_str(), aArguments[1].GetString().c_str(), INT_32(aArguments[3].GetInt()));
-			return 0;
-		}
-
-		oLogger.Emerg("Usage: GETTEXT(message) or GETTEXT(message, domain) or GETTEXT(message, domain, category)");
+		oLogger.Emerg("GetText object is NULL");
 		return -1;
 	}
 
