@@ -143,7 +143,7 @@ BSONData::BSONData(const void    * vIData,
 //
 UCHAR_8 BSONData::GetUChar8()
 {
-	if (iPos >= iDataLen) { throw CTPPParserSyntaxError("pos > size", 1, iPos); }
+	if (iPos >= iDataLen) { throw CTPPParserSyntaxError("char pos > size", 1, iPos); }
 
 return vData[iPos++];
 }
@@ -158,15 +158,15 @@ INT_32 BSONData::GetInt32() { return GetUInt32(); }
 //
 UINT_32 BSONData::GetUInt32()
 {
-	if (iPos + 4 >= iDataLen) { throw CTPPParserSyntaxError("pos > size", 1, iPos); }
+	if (iPos + 4 >= iDataLen) { throw CTPPParserSyntaxError("int32 pos > size", 1, iPos); }
 
-	// Need for fixing warning: operation on ‘((CTPP::BSONData*)this)->CTPP::BSONData::iPos’ may be undefined [-Wsequence-point]
-	UINT_32 iResult =  vData[iPos] +
-	                  (vData[iPos + 1] >> 8) +
-	                  (vData[iPos + 2] >> 16) +
-	                  (vData[iPos + 3] >> 24);
-
-	iPos += 4;
+	UINT_32 iResult = 0;
+	for (UINT_32 iByte = 0; iByte < 4; ++iByte)
+	{
+		UINT_32 iVal = UCHAR_8(vData[iPos++]);
+		iVal <<= 8 * iByte;
+		iResult += iVal;
+	}
 
 return iResult;
 }
@@ -181,10 +181,19 @@ INT_64 BSONData::GetInt64() { return GetUInt64(); }
 //
 UINT_64 BSONData::GetUInt64()
 {
-	const UINT_64 iLo = GetUInt32();
-	const UINT_64 iHi = GetUInt32();
+	try
+	{
+		const UINT_64 iLo = GetUInt32();
+		const UINT_64 iHi = GetUInt32();
 
-return (iHi << 32) + iLo;
+		return (iHi << 32) + iLo;
+	}
+	catch(...)
+	{
+		throw CTPPParserSyntaxError("int64 pos > size", 1, iPos);
+	}
+// Make compiler happy
+return 0;
 }
 
 //
@@ -192,7 +201,7 @@ return (iHi << 32) + iLo;
 //
 W_FLOAT BSONData::GetFloat()
 {
-	if (iPos + 8 >= iDataLen) { throw CTPPParserSyntaxError("pos > size", 1, iPos); }
+	if (iPos + 8 >= iDataLen) { throw CTPPParserSyntaxError("float pos > size", 1, iPos); }
 
 	W_FLOAT dResult = *((W_FLOAT *)(vData + iPos));
 
@@ -221,7 +230,7 @@ STLW::string BSONData::GetString(const bool bCString)
 	{
 		const UINT_32 iSize = GetUInt32();
 		iStart = iPos;
-		if (iPos + iSize >= iDataLen) { throw CTPPParserSyntaxError("pos > size", 1, iPos); }
+		if (iPos + iSize >= iDataLen) { throw CTPPParserSyntaxError("string pos > size", 1, iPos); }
 		iPos += iSize;
 		iEnd = iPos;
 	}
@@ -238,8 +247,10 @@ STLW::string BSONData::GetBinary()
 	UINT_64 iEnd   = iPos;
 
 	const UINT_32 iSize = GetUInt32();
+	if (iPos + iSize >= iDataLen) { throw CTPPParserSyntaxError("binary pos > size", 1, iPos); }
+	// Skip type
+	GetUChar8();
 
-	if (iPos + iSize >= iDataLen) { throw CTPPParserSyntaxError("pos > size", 1, iPos); }
 	iPos += iSize;
 	iEnd = iPos;
 
@@ -251,7 +262,7 @@ return STLW::string(CCHAR_P(vData + iStart), iEnd - iStart);
 //
 STLW::string BSONData::GetObjectId()
 {
-	if (iPos + 12 >= iDataLen) { throw CTPPParserSyntaxError("pos > size", 1, iPos); }
+	if (iPos + 12 >= iDataLen) { throw CTPPParserSyntaxError("object_id pos > size", 1, iPos); }
 	iPos += 12;
 
 return STLW::string(CCHAR_P(vData + iPos - 12), 12);
