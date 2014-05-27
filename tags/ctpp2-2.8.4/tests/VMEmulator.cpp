@@ -1,5 +1,5 @@
 /*-
- * Copyright (c) 2006, 2007 CTPP Team
+ * Copyright (c) 2004 - 2014 CTPP Team
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -61,7 +61,7 @@ int main(int argc, char ** argv)
 
 	if (argc != 2 && argc != 3 && argc != 4)
 	{
-		fprintf(stdout, "CTPP2 virtual machine v" CTPP_VERSION " (" CTPP_IDENT "). Copyright (c) 2004-2011 CTPP Dev. Team.\n\n");
+		fprintf(stdout, "CTPP2 virtual machine v" CTPP_VERSION " (" CTPP_IDENT "). Copyright (c) 2004 - 2014 CTPP Dev. Team.\n\n");
 		fprintf(stderr, "usage: %s file.name [data.json] [limit of steps]\n", argv[0]);
 		return EX_USAGE;
 	}

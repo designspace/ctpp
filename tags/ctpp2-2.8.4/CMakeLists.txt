@@ -17,7 +17,7 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.6.0 FATAL_ERROR)
 
 OPTION(DEBUG_MODE          "Enable debug output [default: OFF]"                 OFF)
 OPTION(ENABLE_OPTIMIZATION "Enable optimization [default: ON]"                  ON)
-OPTION(SKIP_RELINK_RPATH   "Skip relinking and full RPATH for the install tree" OFF)
+OPTION(SKIP_RELINK_RPATH   "Skip relinking and full RPATH for the install tree" ON)
 
 OPTION(ICONV_DISCARD_ILSEQ "Discard illegal sequence and continue (iconv) [default: ON]"    ON)
 OPTION(ICONV_TRANSLITERATE "Enable transliteration in the conversion (iconv) [default: ON]" ON)
@@ -352,13 +352,16 @@ SET(LIBSRCS
             src/CTPP2BitIndex.cpp
             src/CTPP2Compiler.cpp
             src/CTPP2DTOA.cpp
+            src/CTPP2DataBuffer.cpp
             src/CTPP2Exception.cpp
             src/CTPP2Error.cpp
             src/CTPP2FileOutputCollector.cpp
             src/CTPP2FileSourceLoader.cpp
             src/CTPP2FileLogger.cpp
             src/CTPP2HashTable.cpp
+            src/CTPP2BSONParser.cpp
             src/CTPP2JSONParser.cpp
+            src/CTPP2BSONFileParser.cpp
             src/CTPP2JSONFileParser.cpp
             src/CTPP2Logger.cpp
             src/CTPP2Parser.cpp
@@ -476,6 +479,10 @@ TARGET_LINK_LIBRARIES(ctpp2vm               ctpp2)
 # CTPP2 JSON parser
 ADD_EXECUTABLE(ctpp2json                    tests/CTPP2JSONParser.cpp)
 TARGET_LINK_LIBRARIES(ctpp2json             ctpp2)
+
+# CTPP2 JSON parser
+ADD_EXECUTABLE(ctpp2bson                    tests/CTPP2BSONParser.cpp)
+TARGET_LINK_LIBRARIES(ctpp2bson             ctpp2)
 
 # ################################################################################
 # Test suite
@@ -677,6 +684,7 @@ INSTALL(FILES include/CDT.hpp
               include/CTPP2CharIterator.hpp
               include/CTPP2Compiler.hpp
               include/CTPP2DTOA.hpp
+              include/CTPP2DataBuffer.hpp
               include/CTPP2Exception.hpp
               include/CTPP2Error.hpp
               include/CTPP2ErrorCodes.h
@@ -686,7 +694,9 @@ INSTALL(FILES include/CDT.hpp
               include/CTPP2GetText.hpp
               include/CTPP2GlobalDefines.h
               include/CTPP2HashTable.hpp
+              include/CTPP2BSONFileParser.hpp
               include/CTPP2JSONFileParser.hpp
+              include/CTPP2BSONParser.hpp
               include/CTPP2JSONParser.hpp
               include/CTPP2Logger.hpp
               include/CTPP2OutputCollector.hpp

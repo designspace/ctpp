@@ -63,8 +63,8 @@ rm -rf %{buildroot}
 %{_libdir}/libctpp2-st.a
 
 %changelog
-* Wed Aug 28 2013 Alexander Pankov <pianist@usrsrc.ru> - 2.8.4-0
-+ Default gettext support libintl
+* Thu May 22 2014 Andrey V. Shetukhin <stellar@communico.pro> - 2.8.4-0
++ BSON parser/dumper
 
 * Sat Nov 10 2012 Alexander Pankov <pianist@usrsrc.ru> - 2.8.3-0
 + Returned curly brakets as an alias for square

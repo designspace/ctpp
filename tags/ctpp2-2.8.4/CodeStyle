@@ -7,7 +7,7 @@ This is also a preferred style for source code of all applications written in C+
 of the comment having a dash after the star like so:
 
    /*-
-    * Copyright (c) 2004 - 2010 CTPP Team
+    * Copyright (c) 2004 - 2014 CTPP Team
     *
     * Long, boring license goes here, but redacted for brevity
     */
