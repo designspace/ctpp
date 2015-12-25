@@ -1,0 +1,1 @@
+CTPP (or CT++) is a template engine completely written in C++. It has bindings for Perl, PHP and Python languages.
